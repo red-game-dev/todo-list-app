@@ -8,7 +8,7 @@
     "build:prod": "vue-cli-service build --mode production",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "format": "prettier --write \"src/**/*.{ts,vue}\""
+    "format": "prettier --write \"src/**/*.{js,vue,ts,scss}\""
   },
   "dependencies": {
     "animejs": "^3.2.1",
