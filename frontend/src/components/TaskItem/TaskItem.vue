@@ -29,6 +29,6 @@
   };
 </script>
 
-<style module lang="scss">
+<style module lang="scss" scoped>
   @use './TaskItem.module.scss' as taskItem;
 </style>

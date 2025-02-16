@@ -2,7 +2,8 @@
   <div :class="$style.taskList">
     <BaseInput
       v-model="newTask"
-      @keyup.enter="handleCreateTask"
+      :debounceTime="300"
+      @enter="handleCreateTask"
       placeholder="Add a new task..."
       :class="$style.taskList__input"
     />
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from 'vuex';
+  import { mapState, mapGetters, mapActions } from 'vuex';
   import TaskItem from '../TaskItem/TaskItem.vue';
   import BaseInput from '../common/BaseInput/BaseInput.vue';
   import LoadingState from '../common/LoadingState/LoadingState.vue';
@@ -42,35 +43,31 @@
     },
 
     computed: {
-      ...mapState('tasks', ['tasks', 'loading', 'error']),
-
-      sortedTasks() {
-        return [...this.tasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      },
+      ...mapState('tasks', ['loading', 'error']),
+      ...mapGetters('tasks', ['sortedTasks']),
     },
 
     methods: {
       ...mapActions('tasks', {
         fetchTasks: 'fetchTasks',
-        createTaskAction: 'createTask',
+        createTask: 'createTask',
       }),
 
-      handleCreateTask() {
+      async handleCreateTask() {
         if (!this.newTask.trim()) return;
 
-        this.createTaskAction(this.newTask)
-          .then(() => {
-            this.newTask = '';
-            this.$nextTick(() => {
-              const items = this.$refs.taskItems;
-              if (items?.length > 0) {
-                fadeInTask(items[0].$el);
-              }
-            });
-          })
-          .catch(error => {
-            console.error('Failed to create task:', error);
+        try {
+          await this.createTask(this.newTask);
+          this.newTask = '';
+          this.$nextTick(() => {
+            const items = this.$refs.taskItems;
+            if (items?.length > 0) {
+              fadeInTask(items[0].$el);
+            }
           });
+        } catch (error) {
+          console.error('Failed to create task:', error);
+        }
       },
     },
 
@@ -80,6 +77,6 @@
   };
 </script>
 
-<style module lang="scss">
+<style module lang="scss" scoped>
   @use './TaskList.module.scss' as taskList;
 </style>
