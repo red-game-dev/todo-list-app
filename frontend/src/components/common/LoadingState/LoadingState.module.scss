@@ -1,8 +1,19 @@
+@use '@/styles/_animations' as animations;
+
 .loading {
   text-align: center;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  &__spinner {
+    @include animations.spinner();
+  }
 
   &__text {
     color: #666;
+    font-size: 0.875rem;
   }
 }

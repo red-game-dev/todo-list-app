@@ -1,0 +1,24 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@mixin spinner(
+  $duration: 0.8s,
+  $size: 30px,
+  $border-width: 3px,
+  $color-primary: #666,
+  $color-secondary: #eaeaea
+) {
+  width: $size;
+  height: $size;
+  border: $border-width solid $color-secondary;
+  border-radius: 50%;
+  border-top-color: $color-primary;
+  animation: spin $duration linear infinite;
+  will-change: transform;
+}

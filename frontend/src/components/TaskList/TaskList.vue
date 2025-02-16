@@ -3,6 +3,7 @@
     <BaseInput
       v-model="newTask"
       :debounceTime="300"
+      animated
       @enter="handleCreateTask"
       placeholder="Add a new task..."
       :class="$style.taskList__input"
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+  import Vue from 'vue';
   import { mapState, mapGetters, mapActions } from 'vuex';
   import TaskItem from '../TaskItem/TaskItem.vue';
   import BaseInput from '../common/BaseInput/BaseInput.vue';
@@ -30,7 +32,7 @@
   import ErrorState from '../common/ErrorState/ErrorState.vue';
   import { fadeInTask } from '@/utils/animations';
 
-  export default {
+  export default Vue.extend({
     name: 'TaskList',
 
     components: {
@@ -83,7 +85,7 @@
     created() {
       this.fetchTasks();
     },
-  };
+  });
 </script>
 
 <style module lang="scss" scoped>
