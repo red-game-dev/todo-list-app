@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { TaskService } from '../services/TaskService';
-import type { CreateTaskDTO } from '../types';
+import type { CreateTaskDTO, Task } from '../types';
 import { validateCreateTaskDTO } from '../validators/taskValidator';
 
 export class TaskController {
   private static instance: TaskController;
   private taskService: TaskService;
-  private requestCache: Map<string, { data: any; timestamp: number }> = new Map();
+  private requestCache: Map<string, { data: Task[]; timestamp: number }> = new Map();
   private readonly CACHE_DURATION = 5000;
 
   constructor() {
@@ -20,7 +20,7 @@ export class TaskController {
     return TaskController.instance;
   }
 
-  private generateCacheKey(method: string, params: any = {}): string {
+  private generateCacheKey(method: string, params: object = {}): string {
     return `${method}-${JSON.stringify(params)}`;
   }
 
