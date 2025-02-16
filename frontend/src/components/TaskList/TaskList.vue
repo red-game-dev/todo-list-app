@@ -8,9 +8,13 @@
       :class="$style.taskList__input"
     />
 
+    <div v-if="hasErrors" :class="$style.taskList__error">
+      <ErrorState :message="latestError.message" />
+    </div>
+
     <LoadingState v-if="loading" />
-    <ErrorState v-else-if="error" :message="error" />
-    <div v-else :class="$style.taskList__container">
+
+    <div :class="$style.taskList__container">
       <div :class="$style.taskList__items">
         <TaskItem v-for="task in sortedTasks" :key="task.id" :task="task" ref="taskItems" />
       </div>
@@ -43,8 +47,13 @@
     },
 
     computed: {
-      ...mapState('tasks', ['loading', 'error']),
+      ...mapState('tasks', ['loading']),
       ...mapGetters('tasks', ['sortedTasks']),
+      ...mapGetters('errors', ['activeErrors', 'latestError']),
+
+      hasErrors() {
+        return this.activeErrors.length > 0;
+      },
     },
 
     methods: {

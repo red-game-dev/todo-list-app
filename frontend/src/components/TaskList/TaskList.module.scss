@@ -13,8 +13,16 @@
     margin-bottom: 1.5rem;
   }
 
+  &__error {
+    margin: 1rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
   &__container {
     width: 100%;
+    position: relative;
+    z-index: 0;
   }
 
   &__items {
