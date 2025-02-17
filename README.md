@@ -7,7 +7,7 @@ Usage:
 On root
 
 ```bash
-npm run install:all && npm run dev
+npm run install:all && cp ./frontend/.env.example ./frontend/.env && npm run dev
 ```
 
 ## Generic Details
